@@ -1,6 +1,5 @@
 package io.github.yanfeiwuji.web.packing;
 
-import org.apache.logging.log4j.util.LambdaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
