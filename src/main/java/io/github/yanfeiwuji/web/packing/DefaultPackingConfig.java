@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author yanfeiwuji
- * @date 2021/4/17 12:57 下午
  */
 @Configuration
 public class DefaultPackingConfig {

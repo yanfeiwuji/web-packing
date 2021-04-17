@@ -1,37 +1,98 @@
-## Welcome to GitHub Pages
+# web添加包装类
 
-You can use the [editor on GitHub](https://github.com/yanfeiwuji/web-packing/edit/master/docs/index.md) to maintain and preview the content for your website in Markdown files.
+## 安装
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```shell
+mvn install
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+```xml
 
-### Jekyll Themes
+<dependency>
+  <groupId>io.github.yanfeiwuji</groupId>
+  <artifactId>web-packing</artifactId>
+  <version>0.0.1-RELEASE</version>
+</dependency>
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/yanfeiwuji/web-packing/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+```
 
-### Support or Contact
+## 添加你的返回类
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+```java
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+/**
+ * @author yanfeiwuji
+ */
+@Data
+@AllArgsConstructor
+public class R<T> {
+  boolean success;
+  String msg;
+  T data;
+
+  public static <T> R<T> OK(T data) {
+    return new R<>(true, "success", data);
+  }
+}
+
+```
+
+## 配置
+
+```java
+package com.yfwjt.test;
+
+import io.github.yanfeiwuji.web.packing.ObjToPacking;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collections;
+import java.util.List;
+
+
+@SpringBootApplication
+@RestController
+@RequestMapping
+public class SpringDemoApplication {
+
+  public static void main(String[] args) {
+    SpringApplication.run(SpringDemoApplication.class, args);
+  }
+
+  @Bean
+  ObjToPacking<R> objToPacking() {
+    return o -> R.OK(o);
+  }
+
+  @GetMapping("/pack")
+  public R<List<String>> pack() {
+    return R.OK(Collections.singletonList("123"));
+  }
+
+  @GetMapping("/noPack")
+  public List<String> noPack() {
+    return Collections.singletonList("123");
+  }
+
+}
+
+```
+
+## 效果
+url http://localhost:3801/pack
+url http://localhost:3801/noPack
+```json 
+{
+    "success": true,
+    "msg": "success",
+    "data": [
+        "123"
+    ]
+}
+```
