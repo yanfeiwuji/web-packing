@@ -1,0 +1,4 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  io.github.yanfeiwuji.web.packing.DefaultPackingConfig,\
+  io.github.yanfeiwuji.web.packing.DoResponsePacking
