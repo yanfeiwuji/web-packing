@@ -75,18 +75,26 @@ public class SpringDemoApplication {
     return R.OK(Collections.singletonList("123"));
   }
 
+  @GetMapping("/doPack")
+  public List<String> noPdoPack() {
+    return Collections.singletonList("123");
+  }
+
   @GetMapping("/noPack")
+  @NoPacking
   public List<String> noPack() {
     return Collections.singletonList("123");
   }
+  
+  
   
 }
 
 ```
 
 ## 效果
-url http://localhost:3801/pack
-url http://localhost:3801/noPack
+* url http://localhost:3801/pack
+* url http://localhost:3801/doPack
 ```json 
 {
     "success": true,
@@ -95,4 +103,10 @@ url http://localhost:3801/noPack
         "123"
     ]
 }
+```
+* http://localhost:3801/noPack
+```json
+[
+  "123"
+]
 ```

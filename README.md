@@ -75,11 +75,19 @@ public class SpringDemoApplication {
     return R.OK(Collections.singletonList("123"));
   }
 
+  @GetMapping("/doPack")
+  public List<String> noPdoPack() {
+    return Collections.singletonList("123");
+  }
+
   @GetMapping("/noPack")
+  @NoPacking
   public List<String> noPack() {
     return Collections.singletonList("123");
   }
-  
+
+
+
 }
 
 ```

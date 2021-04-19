@@ -10,6 +10,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+
 import java.lang.reflect.Type;
 import java.util.Optional;
 
@@ -30,6 +31,11 @@ public class DoResponsePacking implements ResponseBodyAdvice<Object> {
   @Override
   public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
     boolean result = methodParameter.hasMethodAnnotation(RequestMapping.class) && aClass.equals(MappingJackson2HttpMessageConverter.class);
+
+    if (methodParameter.hasMethodAnnotation(NoPacking.class)) {
+      return false;
+    }
+
     final Type genericParameterType =
       methodParameter.getGenericParameterType();
     // 过滤掉swagger
@@ -37,6 +43,8 @@ public class DoResponsePacking implements ResponseBodyAdvice<Object> {
     if (typeName.startsWith(SPRING_RES)) {
       return false;
     }
+
+
     return result;
   }
 
